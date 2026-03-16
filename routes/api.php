@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\AnalyticsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
@@ -15,8 +15,10 @@ Route::get('/jobs',      [JobController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout',          [AuthController::class, 'logout']);
     Route::get('/me',               [AuthController::class, 'me']);
+    Route::get('/alumni',           [AlumniController::class, 'index']);
     Route::put('/profile/update',   [AlumniController::class, 'updateProfile']);
     Route::delete('/alumni/{id}',   [AlumniController::class, 'destroy']);
     Route::post('/jobs',            [JobController::class, 'store']);
     Route::delete('/jobs/{id}',     [JobController::class, 'destroy']);
+    Route::get('/analytics',        [AnalyticsController::class, 'index']);
 });
