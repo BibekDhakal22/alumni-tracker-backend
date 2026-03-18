@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\EventController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
 Route::get('/alumni',    [AlumniController::class, 'index']);
 Route::get('/jobs',      [JobController::class, 'index']);
+Route::get('/events', [EventController::class, 'index']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -22,4 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/jobs/{id}',     [JobController::class, 'destroy']);
     Route::get('/analytics',        [AnalyticsController::class, 'index']);
     Route::get('/alumni/export', [AlumniController::class, 'export']);
+    Route::post('/events',         [EventController::class, 'store']);
+    Route::delete('/events/{id}',  [EventController::class, 'destroy']);
 });
