@@ -43,4 +43,51 @@ class AlumniController extends Controller
         $user->delete();
         return response()->json(['message' => 'Alumni deleted successfully']);
     }
+
+    public function export()
+{
+    $alumni = User::where('role', 'alumni')
+        ->with('alumniProfile')
+        ->get();
+
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="alumni_export.csv"',
+    ];
+
+    $callback = function() use ($alumni) {
+        $file = fopen('php://output', 'w');
+
+        // CSV Header row
+        fputcsv($file, [
+            'ID', 'Name', 'Email', 'Role',
+            'Batch Year', 'Phone', 'Address',
+            'Job Title', 'Company', 'Industry',
+            'LinkedIn', 'Status', 'Registered On'
+        ]);
+
+        // Data rows
+        foreach ($alumni as $a) {
+            fputcsv($file, [
+                $a->id,
+                $a->name,
+                $a->email,
+                $a->role,
+                $a->alumni_profile?->batch_year ?? '',
+                $a->alumni_profile?->phone ?? '',
+                $a->alumni_profile?->address ?? '',
+                $a->alumni_profile?->current_job ?? '',
+                $a->alumni_profile?->company ?? '',
+                $a->alumni_profile?->industry ?? '',
+                $a->alumni_profile?->linkedin ?? '',
+                $a->alumni_profile?->status ?? '',
+                $a->created_at->format('Y-m-d'),
+            ]);
+        }
+
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
 }

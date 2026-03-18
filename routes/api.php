@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/jobs',            [JobController::class, 'store']);
     Route::delete('/jobs/{id}',     [JobController::class, 'destroy']);
     Route::get('/analytics',        [AnalyticsController::class, 'index']);
+    Route::get('/alumni/export', [AlumniController::class, 'export']);
 });
