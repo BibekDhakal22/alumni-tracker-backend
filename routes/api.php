@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MentorshipController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -26,4 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/alumni/export', [AlumniController::class, 'export']);
     Route::post('/events',         [EventController::class, 'store']);
     Route::delete('/events/{id}',  [EventController::class, 'destroy']);
+    Route::get('/mentors',                      [MentorshipController::class, 'mentors']);
+Route::post('/mentorship',                  [MentorshipController::class, 'store']);
+Route::get('/mentorship/my-requests',       [MentorshipController::class, 'myRequests']);
+Route::get('/mentorship/received',          [MentorshipController::class, 'receivedRequests']);
+Route::put('/mentorship/{id}/respond',      [MentorshipController::class, 'respond']);
 });
