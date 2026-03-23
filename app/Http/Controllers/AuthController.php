@@ -74,4 +74,24 @@ class AuthController extends Controller
     {
         return response()->json($request->user()->load('alumniProfile'));
     }
+
+    public function changePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password'     => 'required|min:6|confirmed',
+    ]);
+
+    if (!Hash::check($request->current_password, $request->user()->password)) {
+        return response()->json([
+            'message' => 'Current password is incorrect'
+        ], 422);
+    }
+
+    $request->user()->update([
+        'password' => Hash::make($request->new_password)
+    ]);
+
+    return response()->json(['message' => 'Password changed successfully']);
+}
 }

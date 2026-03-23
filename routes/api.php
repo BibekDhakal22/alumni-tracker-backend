@@ -32,4 +32,5 @@ Route::post('/mentorship',                  [MentorshipController::class, 'store
 Route::get('/mentorship/my-requests',       [MentorshipController::class, 'myRequests']);
 Route::get('/mentorship/received',          [MentorshipController::class, 'receivedRequests']);
 Route::put('/mentorship/{id}/respond',      [MentorshipController::class, 'respond']);
+Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
