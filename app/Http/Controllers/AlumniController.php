@@ -90,4 +90,30 @@ class AlumniController extends Controller
 
     return response()->stream($callback, 200, $headers);
 }
+
+public function uploadPhoto(Request $request)
+{
+    $request->validate([
+        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user = $request->user();
+    $profile = $user->alumniProfile;
+
+    // Delete old photo if exists
+    if ($profile->photo) {
+        \Storage::disk('public')->delete($profile->photo);
+    }
+
+    // Store new photo
+    $path = $request->file('photo')->store('photos', 'public');
+
+    $profile->update(['photo' => $path]);
+
+    return response()->json([
+        'photo' => $path,
+        'photo_url' => asset('storage/' . $path),
+        'message' => 'Photo uploaded successfully'
+    ]);
+}
 }

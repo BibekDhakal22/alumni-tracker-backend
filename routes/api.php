@@ -33,4 +33,5 @@ Route::get('/mentorship/my-requests',       [MentorshipController::class, 'myReq
 Route::get('/mentorship/received',          [MentorshipController::class, 'receivedRequests']);
 Route::put('/mentorship/{id}/respond',      [MentorshipController::class, 'respond']);
 Route::post('/change-password', [AuthController::class, 'changePassword']);
+Route::post('/profile/photo', [AlumniController::class, 'uploadPhoto']);
 });
