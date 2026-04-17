@@ -7,6 +7,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MentorshipController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\NotificationController;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -34,4 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/mentorship/{id}/respond',      [MentorshipController::class, 'respond']);
     Route::get('/analytics',                    [AnalyticsController::class, 'index']);
     Route::post('/change-password',             [AuthController::class, 'changePassword']);
+    Route::get('/notifications',                [NotificationController::class, 'index']);
+    Route::get('/notifications/unread',         [NotificationController::class, 'unreadCount']);
+    Route::put('/notifications/{id}/read',      [NotificationController::class, 'markRead']);
+    Route::put('/notifications/read-all',       [NotificationController::class, 'markAllRead']);
+    Route::delete('/notifications/{id}',        [NotificationController::class, 'destroy']);
 });
